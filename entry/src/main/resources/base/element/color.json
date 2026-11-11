@@ -1,0 +1,84 @@
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "brand",
+      "value": "#4D6BFE"
+    },
+    {
+      "name": "chat_bg",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "text_primary",
+      "value": "#262626"
+    },
+    {
+      "name": "text_secondary",
+      "value": "#8E8E8E"
+    },
+    {
+      "name": "user_bubble",
+      "value": "#EAF2FF"
+    },
+    {
+      "name": "input_bg",
+      "value": "#F3F4F6"
+    },
+    {
+      "name": "divider_color",
+      "value": "#E5E7EB"
+    },
+    {
+      "name": "panel_bg",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "drawer_bg",
+      "value": "#F7F8FA"
+    },
+    {
+      "name": "code_bg",
+      "value": "#282C34"
+    },
+    {
+      "name": "code_text",
+      "value": "#ABB2BF"
+    },
+    {
+      "name": "danger",
+      "value": "#E53935"
+    },
+    {
+      "name": "mask",
+      "value": "#66000000"
+    },
+    {
+      "name": "search_bg",
+      "value": "#F5F5F5"
+    },
+    {
+      "name": "glass_card",
+      "value": "#8CFFFFFF"
+    },
+    {
+      "name": "glass_spot",
+      "value": "#2E4D6BFE"
+    },
+    {
+      "name": "glass_stroke",
+      "value": "#E6FFFFFF"
+    },
+    {
+      "name": "glass_shadow",
+      "value": "#1A262626"
+    },
+    {
+      "name": "glass_text_aux",
+      "value": "#8E8E8E"
+    }
+  ]
+}

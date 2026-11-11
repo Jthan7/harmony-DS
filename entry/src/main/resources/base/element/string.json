@@ -1,0 +1,20 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "DS"
+    },
+    {
+      "name": "mic_permission_reason",
+      "value": "语音输入功能需要使用麦克风进行语音识别"
+    }
+  ]
+}

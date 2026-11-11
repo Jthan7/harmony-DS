@@ -1,0 +1,68 @@
+{
+  "color": [
+    {
+      "name": "chat_bg",
+      "value": "#121212"
+    },
+    {
+      "name": "text_primary",
+      "value": "#E8E8E8"
+    },
+    {
+      "name": "text_secondary",
+      "value": "#9A9A9A"
+    },
+    {
+      "name": "user_bubble",
+      "value": "#26324E"
+    },
+    {
+      "name": "input_bg",
+      "value": "#1F2022"
+    },
+    {
+      "name": "divider_color",
+      "value": "#333333"
+    },
+    {
+      "name": "panel_bg",
+      "value": "#1C1C1E"
+    },
+    {
+      "name": "drawer_bg",
+      "value": "#17181A"
+    },
+    {
+      "name": "code_bg",
+      "value": "#1E2127"
+    },
+    {
+      "name": "code_text",
+      "value": "#ABB2BF"
+    },
+    {
+      "name": "danger",
+      "value": "#FF6B6B"
+    },
+    {
+      "name": "glass_card",
+      "value": "#1AFFFFFF"
+    },
+    {
+      "name": "glass_spot",
+      "value": "#4D4D6BFE"
+    },
+    {
+      "name": "glass_stroke",
+      "value": "#40FFFFFF"
+    },
+    {
+      "name": "glass_shadow",
+      "value": "#4D000000"
+    },
+    {
+      "name": "glass_text_aux",
+      "value": "#9A9A9A"
+    }
+  ]
+}

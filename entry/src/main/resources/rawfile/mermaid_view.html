@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mermaid Chart</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    #container {
+      padding: 8px;
+      background: #ffffff;
+      text-align: center;
+    }
+    #container svg {
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script src="./mermaid.min.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'neutral',
+        securityLevel: 'strict'
+      });
+
+      function errText(e) {
+        if (e && e.message) { return String(e.message); }
+        return String(e);
+      }
+
+      window.renderMermaid = function () {
+        var bridge = window.mermaidBridge;
+        var container = document.getElementById('container');
+        if (!bridge || typeof bridge.getCode !== 'function' || !container) {
+          return;
+        }
+        var code = '';
+        try {
+          code = bridge.getCode();
+        } catch (e) {
+          if (typeof bridge.onError === 'function') { bridge.onError(errText(e)); }
+          return;
+        }
+        if (!code) { return; }
+        try {
+          mermaid.render('mmd_svg_' + Date.now(), code).then(function (out) {
+            container.innerHTML = out.svg;
+            var el = container.firstElementChild;
+            var h = 0;
+            if (el) {
+              h = Math.ceil(el.getBoundingClientRect().height);
+            }
+            if (typeof bridge.onRendered === 'function') { bridge.onRendered(h); }
+          }).catch(function (err) {
+            if (typeof bridge.onError === 'function') { bridge.onError(errText(err)); }
+          });
+        } catch (e) {
+          if (typeof bridge.onError === 'function') { bridge.onError(errText(e)); }
+        }
+      };
+
+      window.addEventListener('load', function () {
+        window.renderMermaid();
+      });
+    })();
+  </script>
+</body>
+</html>

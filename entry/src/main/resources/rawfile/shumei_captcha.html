@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Shumei Captcha</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #sm-wrap {
+      width: 300px;
+      margin: 0 auto;
+      padding-top: 4px;
+    }
+    #sm-container {
+      width: 300px;
+      min-height: 160px;
+    }
+    #sm-container iframe {
+      border: none;
+      max-width: 100%;
+    }
+    /* 加载骨架（对齐 Web 端 147 + 39 双条骨架占位） */
+    #sm-loading {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+    #sm-loading .bar {
+      width: 262px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #f1f3f7 25%, #e7eaf1 50%, #f1f3f7 75%);
+      background-size: 200% 100%;
+      animation: sm-shimmer 1.2s infinite linear;
+    }
+    #sm-loading .bar1 { height: 147px; }
+    #sm-loading .bar2 { height: 39px; }
+    @keyframes sm-shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="sm-wrap"><div id="sm-container"></div></div>
+  <div id="sm-loading"><div class="bar bar1"></div><div class="bar bar2"></div></div>
+  <script>
+    (function () {
+      'use strict';
+      // 数美 SDK 配置取证自 Web bundle main.9120333998.js（2.7.1）：
+      // 大陆（CN）SDK：https://castatic.fengkongcloud.cn/pr/v1.0.4/smcp.min.js
+      // initSMCaptcha({organization, appendTo, lang, mode, maskBindClose, onError}, onReady(instance))
+      // instance.onSuccess(result => result.{pass, rid})
+      var SMCP_URL = 'https://castatic.fengkongcloud.cn/pr/v1.0.4/smcp.min.js';
+      var ORGANIZATION = 'P9usCUBauxft8eAmUXaZ';
+
+      function getBridge() {
+        return window.captchaBridge;
+      }
+
+      function notifyReady() {
+        var el = document.getElementById('sm-loading');
+        if (el) { el.style.display = 'none'; }
+        var bridge = getBridge();
+        if (bridge && typeof bridge.onReady === 'function') {
+          try { bridge.onReady(); } catch (e) { /* noop */ }
+        }
+      }
+
+      function notifyError() {
+        var bridge = getBridge();
+        if (bridge && typeof bridge.onError === 'function') {
+          try { bridge.onError(); } catch (e) { /* noop */ }
+        }
+      }
+
+      function notifyResult(result) {
+        var bridge = getBridge();
+        if (bridge && typeof bridge.onResult === 'function') {
+          try { bridge.onResult(JSON.stringify(result)); } catch (e) { /* noop */ }
+        }
+      }
+
+      function readMode() {
+        var bridge = getBridge();
+        if (bridge && typeof bridge.getMode === 'function') {
+          try { return String(bridge.getMode() || ''); } catch (e) { return ''; }
+        }
+        return '';
+      }
+
+      var mode = readMode();
+      var options = {
+        organization: ORGANIZATION,
+        appendTo: 'sm-container',
+        lang: 'zh-cn',
+        maskBindClose: false,
+        onError: function () {
+          // 初始化失败：通知原生侧展示错误态（对齐 Web 端 onError -> status "error"）
+          notifyError();
+        }
+      };
+      if (mode) { options.mode = mode; }
+
+      var s = document.createElement('script');
+      s.src = SMCP_URL;
+      s.onload = function () {
+        if (typeof initSMCaptcha !== 'function') {
+          notifyError();
+          return;
+        }
+        try {
+          initSMCaptcha(options, function (instance) {
+            notifyReady();
+            if (!instance || typeof instance.onSuccess !== 'function') {
+              notifyError();
+              return;
+            }
+            instance.onSuccess(function (r) {
+              var result = {
+                pass: !!(r && r.pass),
+                rid: (r && r.rid) ? String(r.rid) : ''
+              };
+              notifyResult(result);
+            });
+          });
+        } catch (e) {
+          notifyError();
+        }
+      };
+      s.onerror = function () {
+        notifyError();
+      };
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

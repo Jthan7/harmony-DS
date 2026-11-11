@@ -1,0 +1,57 @@
+/**
+ * build-profile.json5 签名配置模板
+ * ============================================================
+ *
+ * 本仓库的 `build-profile.json5` 中的 `signingConfigs[].material` 已清空
+ * （路径为相对路径、密码为空），因为签名材料属于**个人隐私**，不应进版本库。
+ *
+ * 如何生成真实配置（二选一）：
+ *
+ * 【方式 A】DevEco Studio 自动生成（推荐）
+ *   1. 用 DevEco Studio 打开工程
+ *   2. 菜单 File → Project Structure → Signing Configs
+ *   3. 勾选 "Automatically generate signature"（自动签名）
+ *      DevEco 会自动创建 .p12 / .cer / .p7b 并把真实值写回 build-profile.json5
+ *   4. 登录华为开发者账号（需已开通 AppGallery Connect 并创建应用）
+ *
+ * 【方式 B】使用已有证书手动配置
+ *   1. 在 AppGallery Connect 创建应用，获得 .p12 / .cer / .p7b 三件套
+ *   2. 放入 AppScope/material/ 目录（该目录已被 .gitignore 忽略）
+ *   3. 把 build-profile.json5 中 material 的字段按下列说明填好
+ *
+ * 字段说明：
+ *   storeFile      —— p12 密钥库文件路径（相对工程根目录）
+ *   storePassword  —— p12 密钥库口令（DevEco 存储为密文，形如 0000001D...）
+ *   keyAlias       —— 密钥别名
+ *   keyPassword    —— 私钥口令（DevEco 存储为密文）
+ *   signAlg        —— 签名算法，常规用 SHA256withECDSA
+ *   profile        —— 描述文件(.p7b)路径，来自 AGC 申请
+ *   certpath       —— 证书(.cer)路径
+ *
+ * ⚠️ 注意：DevEco 写入 build-profile.json5 的真实密码是**可逆的密文**，
+ *    拿到该文件即可解密出明文口令。因此：
+ *      - 切勿将配置好的 build-profile.json5 提交到公开仓库
+ *      - 建议在 .gitignore 中保留 `build-profile.json5` 规则，
+ *        仓库中只保留本示例文件
+ *
+ * 更多信息见 README.md「使用与构建指南」章节。
+ */
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "storeFile": "AppScope/material/mydeepseek.p12",
+          "storePassword": "<你的 p12 密钥库口令>",
+          "keyAlias": "mydeepseek",
+          "keyPassword": "<你的私钥口令>",
+          "signAlg": "SHA256withECDSA",
+          "profile": "AppScope/material/mydeepseek.p7b",
+          "certpath": "AppScope/material/mydeepseek.cer"
+        }
+      }
+    ]
+  }
+}
